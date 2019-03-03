@@ -1,5 +1,11 @@
-version: '3'
+version: '3.2'
 services:
-  api:
-    build: api/.
-    command: tail -f /dev/null
+  grpc-server:
+    build: grpc-server/.
+    command: ./grpc-server --grpc-port=3000 --db-path=/data/tasks.db
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: bind
+        target: /data
+        source: ./grpc-server/data
