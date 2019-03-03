@@ -13,6 +13,7 @@ message ToDo {
     string description = 3;
     // Date and time to remind the todo task
     google.protobuf.Timestamp reminder = 4;
+    bool isDone = 5;
 }
 
 // Request data to create new todo task
