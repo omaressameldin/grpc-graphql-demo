@@ -4,8 +4,13 @@ services:
     build: grpc-server/.
     command: ./grpc-server --grpc-port=3000 --db-path=/data/tasks.db
     ports:
-      - "3000:3000"
+      - "9170:3000"
     volumes:
       - type: bind
         target: /data
         source: ./grpc-server/data
+  graphql-server:
+    build: graphql-server/.
+    command: ./graphql-server
+    ports:
+      - "9181:8080"
