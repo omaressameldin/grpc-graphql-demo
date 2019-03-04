@@ -35,3 +35,8 @@ func RunServer() error {
 
 	return server.RunServer(ctx, v1API, cfg.GRPCPort)
 }
+
+// CloseServer closes all connections such as database connection
+func CloseServer() error {
+	return v1.CloseConnection()
+}

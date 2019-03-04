@@ -24,6 +24,10 @@ func Init(dbPath string) error {
 	})
 }
 
+func Close() error {
+	return db.Close()
+}
+
 func AllTasks() ([]model.Task, error) {
 	var tasks []model.Task
 	err := db.View(func(tx *bolt.Tx) error {

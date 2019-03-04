@@ -34,6 +34,11 @@ func NewToDoServiceServer(dbPath string) v1.ToDoServiceServer {
 	return &toDoServiceServer{DbPath: dbPath}
 }
 
+// CloseConnection closes connection to BoltDB
+func CloseConnection() error {
+	return db.Close()
+}
+
 // checkAPI checks if the API version requested by client is supported by server
 func (s *toDoServiceServer) checkAPI(api string) error {
 	// API version is "" means use current version of the service
