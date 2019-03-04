@@ -1,0 +1,29 @@
+type Todo {
+  id: ID!
+  title: String!
+  description: String!
+  isDone: Boolean!
+  user: User!
+  reminder: Timestamp
+}
+
+type User {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  todos: [Todo!]!
+}
+
+input NewTodo {
+  title: String!
+  description: String!
+  userId: ID!
+}
+
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+}
+
+scalar Timestamp
