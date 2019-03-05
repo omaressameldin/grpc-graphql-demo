@@ -102,6 +102,7 @@ func btoi(b []byte) int64 {
 
 func putTask(id64 int64, task model.Task, b *bolt.Bucket) error {
 	id := itob(id64)
+	task.Key = id64
 	taskBuffer, err := model.TaskToBuffer(task)
 	if err != nil {
 		return err
