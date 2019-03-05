@@ -64,6 +64,35 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input NewTodo) (*cust
 	return todo, nil
 }
 
+func (r *mutationResolver) UpdateTodo(ctx context.Context, input UpdateTodo) (*custom_models.Todo, error) {
+	c := v1.NewToDoServiceClient(r.TodoClient)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	updatedTodo := v1.ToDo{
+		Id: int64(input.TodoID),
+	}
+	if input.Title != nil {
+		updatedTodo.Title = *input.Title
+	}
+	if input.Description != nil {
+		updatedTodo.Description = *input.Description
+	}
+
+	req1 := v1.UpdateRequest{
+		Api: apiVersion,
+		ToDo: &updatedTodo,
+	}
+
+	res1, err := c.Update(ctx, &req1)
+	if err != nil {
+		log.Fatalf("Create failed: %v", err)
+	}
+
+	todo := custom_models.BuildTodo(res1.GetToDo())
+	return todo, nil
+}
+
 type queryResolver struct{ *Resolver }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]custom_models.Todo, error) {
@@ -88,6 +117,26 @@ func (r *queryResolver) Todos(ctx context.Context) ([]custom_models.Todo, error)
 	}
 
 	return todos, nil
+}
+
+func (r *queryResolver) Todo(ctx context.Context, input ReadTodo) (*custom_models.Todo, error) {
+	c := v1.NewToDoServiceClient(r.TodoClient)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	req1 := v1.ReadRequest{
+		Api: apiVersion,
+		Id: int64(input.TodoID),
+	}
+
+	res1, err := c.Read(ctx, &req1)
+	if err != nil {
+		log.Fatalf("Create failed: %v", err)
+	}
+
+	todo := custom_models.BuildTodo(res1.GetToDo())
+	return todo, nil
 }
 
 type todoResolver struct{ *Resolver }

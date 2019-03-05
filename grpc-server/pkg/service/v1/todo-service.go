@@ -138,11 +138,18 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 
 	// update ToDo
 	task := model.Task{
-		Key:         req.ToDo.Id,
-		Title:       req.ToDo.Title,
-		Description: req.ToDo.Description,
-		IsDone:      req.ToDo.IsDone,
+		Key: req.ToDo.Id,
 	}
+	if &req.ToDo.Title != nil {
+		task.Title = req.ToDo.Title
+	}
+	if &req.ToDo.Description != nil {
+		task.Description = req.ToDo.Description
+	}
+	if &req.ToDo.IsDone != nil {
+		task.IsDone = req.ToDo.IsDone
+	}
+
 
 	if(req.ToDo.Reminder != nil) {
 		reminder, err := ptypes.Timestamp(req.ToDo.Reminder)
