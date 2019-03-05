@@ -2,6 +2,7 @@ package custom_models
 
 import (
 "time"
+"github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
 )
 
 type Todo struct {
@@ -11,4 +12,12 @@ type Todo struct {
 	IsDone   bool
 	UserID int
 	Reminder time.Time
+}
+
+func BuildTodo(todo *v1.ToDo) *Todo {
+	return &Todo{
+		ID:     int(todo.GetId()),
+		Description: todo.GetDescription(),
+		Title: todo.GetTitle(),
+	}
 }
