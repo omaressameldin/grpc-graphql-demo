@@ -50,6 +50,7 @@ type ComplexityRoot struct {
 
 	Query struct {
 		Todos func(childComplexity int) int
+		Todo  func(childComplexity int, input ReadTodo) int
 	}
 
 	Todo struct {
@@ -72,6 +73,7 @@ type MutationResolver interface {
 }
 type QueryResolver interface {
 	Todos(ctx context.Context) ([]custom_models.Todo, error)
+	Todo(ctx context.Context, input ReadTodo) (*custom_models.Todo, error)
 }
 type TodoResolver interface {
 	User(ctx context.Context, obj *custom_models.Todo) (*User, error)
@@ -110,6 +112,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Todos(childComplexity), true
+
+	case "Query.Todo":
+		if e.complexity.Query.Todo == nil {
+			break
+		}
+
+		args, err := ec.field_Query_todo_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Todo(childComplexity, args["input"].(ReadTodo)), true
 
 	case "Todo.ID":
 		if e.complexity.Todo.ID == nil {
@@ -260,12 +274,17 @@ type User {
 
 type Query {
   todos: [Todo!]!
+  todo(input: ReadTodo! ): Todo!
 }
 
 input NewTodo {
   title: String!
   description: String!
   userId: ID!
+}
+
+input ReadTodo {
+  todoId: ID!
 }
 
 type Mutation {
@@ -304,6 +323,20 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_todo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 ReadTodo
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNReadTodo2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐReadTodo(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -396,6 +429,39 @@ func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.Coll
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
 	return ec.marshalNTodo2ᚕgithubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚋcustom_modelsᚐTodo(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_todo(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Field:  field,
+		Args:   nil,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_todo_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx.Args = args
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Todo(rctx, args["input"].(ReadTodo))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*custom_models.Todo)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return ec.marshalNTodo2ᚖgithubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚋcustom_modelsᚐTodo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
@@ -1485,6 +1551,24 @@ func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, v interfa
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputReadTodo(ctx context.Context, v interface{}) (ReadTodo, error) {
+	var it ReadTodo
+	var asMap = v.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "todoId":
+			var err error
+			it.TodoID, err = ec.unmarshalNID2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 // endregion **************************** input.gotpl *****************************
 
 // region    ************************** interface.gotpl ***************************
@@ -1548,6 +1632,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_todos(ctx, field)
+				if res == graphql.Null {
+					invalid = true
+				}
+				return res
+			})
+		case "todo":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_todo(ctx, field)
 				if res == graphql.Null {
 					invalid = true
 				}
@@ -1921,6 +2019,10 @@ func (ec *executionContext) marshalNID2int(ctx context.Context, sel ast.Selectio
 
 func (ec *executionContext) unmarshalNNewTodo2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐNewTodo(ctx context.Context, v interface{}) (NewTodo, error) {
 	return ec.unmarshalInputNewTodo(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNReadTodo2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐReadTodo(ctx context.Context, v interface{}) (ReadTodo, error) {
+	return ec.unmarshalInputReadTodo(ctx, v)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

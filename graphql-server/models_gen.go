@@ -8,6 +8,10 @@ type NewTodo struct {
 	UserID      int    `json:"userId"`
 }
 
+type ReadTodo struct {
+	TodoID int `json:"todoId"`
+}
+
 type User struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
