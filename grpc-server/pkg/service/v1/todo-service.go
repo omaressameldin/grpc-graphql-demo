@@ -136,21 +136,23 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 		return nil, err
 	}
 
-	reminder, err := ptypes.Timestamp(req.ToDo.Reminder)
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, "reminder field has invalid format-> "+err.Error())
-	}
-
 	// update ToDo
 	task := model.Task{
 		Key:         req.ToDo.Id,
 		Title:       req.ToDo.Title,
 		Description: req.ToDo.Description,
-		Reminder:    reminder,
 		IsDone:      req.ToDo.IsDone,
 	}
 
-	err = db.UpdateTask(req.ToDo.Id, task)
+	if(req.ToDo.Reminder != nil) {
+		reminder, err := ptypes.Timestamp(req.ToDo.Reminder)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, "reminder field has invalid format-> "+err.Error())
+		}
+		task.Reminder = reminder
+	}
+
+	err := db.UpdateTask(req.ToDo.Id, task)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to update ToDo-> "+err.Error())
 	}
