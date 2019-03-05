@@ -28,8 +28,8 @@ message CreateRequest{
 message CreateResponse{
     // API versioning: it is my best practice to specify version explicitly
     string api = 1;
-    // ID of created task
-    int64 id = 2;
+    // created task entity
+    ToDo toDo = 2;
 }
 
 // Request data to read todo task
@@ -62,7 +62,7 @@ message UpdateResponse{
     string api = 1;
     // Contains number of entities have beed updated
     // Equals 1 in case of succesfull update
-    int64 updated = 2;
+    ToDo toDo = 2;
 }
 
 // Request data to delete todo task
