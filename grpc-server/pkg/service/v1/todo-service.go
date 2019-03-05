@@ -77,7 +77,13 @@ func (s *toDoServiceServer) Create(ctx context.Context, req *v1.CreateRequest) (
 
 	return &v1.CreateResponse{
 		Api: apiVersion,
-		Id:  id,
+		ToDo: &v1.ToDo{
+			Id:          id,
+			Title:       task.Title,
+			Description: task.Description,
+			IsDone:      task.IsDone,
+			Reminder:    req.ToDo.Reminder,
+		},
 	}, nil
 }
 
@@ -151,7 +157,13 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 
 	return &v1.UpdateResponse{
 		Api:     apiVersion,
-		Updated: 1,
+		ToDo: &v1.ToDo{
+			Id:          task.Key,
+			Title:       task.Title,
+			Description: task.Description,
+			IsDone:      task.IsDone,
+			Reminder:    req.ToDo.Reminder,
+		},
 	}, nil
 }
 
