@@ -1,4 +1,4 @@
-module "github.com/omaressameldin/grpc-graphql-demo/grpc-server"
+module github.com/omaressameldin/grpc-graphql-demo/grpc-server
 
 require (
 	github.com/boltdb/bolt v1.3.1
