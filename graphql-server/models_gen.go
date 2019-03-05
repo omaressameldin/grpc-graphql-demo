@@ -12,6 +12,12 @@ type ReadTodo struct {
 	TodoID int `json:"todoId"`
 }
 
+type UpdateTodo struct {
+	Title       *string `json:"title"`
+	Description *string `json:"description"`
+	TodoID      int     `json:"todoId"`
+}
+
 type User struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`

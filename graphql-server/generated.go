@@ -46,6 +46,7 @@ type DirectiveRoot struct {
 type ComplexityRoot struct {
 	Mutation struct {
 		CreateTodo func(childComplexity int, input NewTodo) int
+		UpdateTodo func(childComplexity int, input UpdateTodo) int
 	}
 
 	Query struct {
@@ -70,6 +71,7 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	CreateTodo(ctx context.Context, input NewTodo) (*custom_models.Todo, error)
+	UpdateTodo(ctx context.Context, input UpdateTodo) (*custom_models.Todo, error)
 }
 type QueryResolver interface {
 	Todos(ctx context.Context) ([]custom_models.Todo, error)
@@ -105,6 +107,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateTodo(childComplexity, args["input"].(NewTodo)), true
+
+	case "Mutation.UpdateTodo":
+		if e.complexity.Mutation.UpdateTodo == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateTodo_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateTodo(childComplexity, args["input"].(UpdateTodo)), true
 
 	case "Query.Todos":
 		if e.complexity.Query.Todos == nil {
@@ -283,12 +297,21 @@ input NewTodo {
   userId: ID!
 }
 
+
 input ReadTodo {
+  todoId: ID!
+}
+
+input UpdateTodo {
+  title: String
+  description: String
   todoId: ID!
 }
 
 type Mutation {
   createTodo(input: NewTodo!): Todo!
+  updateTodo(input: UpdateTodo!): Todo!
+
 }
 
 scalar Timestamp`},
@@ -304,6 +327,20 @@ func (ec *executionContext) field_Mutation_createTodo_args(ctx context.Context, 
 	var arg0 NewTodo
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNNewTodo2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐNewTodo(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateTodo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 UpdateTodo
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNUpdateTodo2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐUpdateTodo(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -392,6 +429,39 @@ func (ec *executionContext) _Mutation_createTodo(ctx context.Context, field grap
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().CreateTodo(rctx, args["input"].(NewTodo))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*custom_models.Todo)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return ec.marshalNTodo2ᚖgithubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚋcustom_modelsᚐTodo(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_updateTodo(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Field:  field,
+		Args:   nil,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_updateTodo_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx.Args = args
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateTodo(rctx, args["input"].(UpdateTodo))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -1569,6 +1639,36 @@ func (ec *executionContext) unmarshalInputReadTodo(ctx context.Context, v interf
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateTodo(ctx context.Context, v interface{}) (UpdateTodo, error) {
+	var it UpdateTodo
+	var asMap = v.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "title":
+			var err error
+			it.Title, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description":
+			var err error
+			it.Description, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "todoId":
+			var err error
+			it.TodoID, err = ec.unmarshalNID2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 // endregion **************************** input.gotpl *****************************
 
 // region    ************************** interface.gotpl ***************************
@@ -1594,6 +1694,11 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			out.Values[i] = graphql.MarshalString("Mutation")
 		case "createTodo":
 			out.Values[i] = ec._Mutation_createTodo(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "updateTodo":
+			out.Values[i] = ec._Mutation_updateTodo(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
@@ -2082,6 +2187,10 @@ func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋomaressameldinᚋgrpc
 		return graphql.Null
 	}
 	return ec._Todo(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNUpdateTodo2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐUpdateTodo(ctx context.Context, v interface{}) (UpdateTodo, error) {
+	return ec.unmarshalInputUpdateTodo(ctx, v)
 }
 
 func (ec *executionContext) marshalNUser2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐUser(ctx context.Context, sel ast.SelectionSet, v User) graphql.Marshaler {

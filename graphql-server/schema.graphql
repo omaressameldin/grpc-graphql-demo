@@ -23,12 +23,21 @@ input NewTodo {
   userId: ID!
 }
 
+
 input ReadTodo {
+  todoId: ID!
+}
+
+input UpdateTodo {
+  title: String
+  description: String
   todoId: ID!
 }
 
 type Mutation {
   createTodo(input: NewTodo!): Todo!
+  updateTodo(input: UpdateTodo!): Todo!
+
 }
 
 scalar Timestamp
