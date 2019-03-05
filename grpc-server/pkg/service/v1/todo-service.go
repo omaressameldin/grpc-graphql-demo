@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"../../../model"
+	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/model"
 
-	"../../../db"
-	v1 "../../api/v1"
+	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/db"
+	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
 
 	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc/codes"

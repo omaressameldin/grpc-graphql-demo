@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	cmd "./cmd/server"
+	cmd "github.com/omaressameldin/grpc-graphql-demo/grpc-server/cmd/server"
 )
 
 func main() {
