@@ -6,12 +6,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/omaressameldin/grpc-graphql-demo/graphql-server/custom_models"
-	"github.com/golang/protobuf/ptypes"
-	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
-	"google.golang.org/grpc"
 	"log"
 	"time"
+
+	"github.com/golang/protobuf/ptypes"
+	"github.com/omaressameldin/grpc-graphql-demo/graphql-server/custom_models"
+	v1 "github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
+	"google.golang.org/grpc"
 )
 
 // THIS CODE IS A STARTING POINT ONLY. IT WILL NOT BE UPDATED WITH SCHEMA CHANGES.
@@ -21,7 +22,7 @@ const (
 	apiVersion = "v1"
 )
 
-type Resolver struct{
+type Resolver struct {
 	TodoClient *grpc.ClientConn
 }
 
@@ -51,7 +52,7 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input NewTodo) (*cust
 		ToDo: &v1.ToDo{
 			Title:       input.Title,
 			Description: input.Description,
-			Reminder: reminder,
+			Reminder:    reminder,
 		},
 	}
 
@@ -80,7 +81,7 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input UpdateTodo) (*c
 	}
 
 	req1 := v1.UpdateRequest{
-		Api: apiVersion,
+		Api:  apiVersion,
 		ToDo: &updatedTodo,
 	}
 
@@ -127,7 +128,7 @@ func (r *queryResolver) Todo(ctx context.Context, input ReadTodo) (*custom_model
 
 	req1 := v1.ReadRequest{
 		Api: apiVersion,
-		Id: int64(input.TodoID),
+		Id:  int64(input.TodoID),
 	}
 
 	res1, err := c.Read(ctx, &req1)

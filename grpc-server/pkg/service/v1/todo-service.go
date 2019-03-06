@@ -8,7 +8,7 @@ import (
 	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/model"
 
 	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/db"
-	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
+	v1 "github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
 
 	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc/codes"
@@ -150,8 +150,7 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 		task.IsDone = req.ToDo.IsDone
 	}
 
-
-	if(req.ToDo.Reminder != nil) {
+	if req.ToDo.Reminder != nil {
 		reminder, err := ptypes.Timestamp(req.ToDo.Reminder)
 		if err != nil {
 			return nil, status.Error(codes.InvalidArgument, "reminder field has invalid format-> "+err.Error())
@@ -165,7 +164,7 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 	}
 
 	return &v1.UpdateResponse{
-		Api:     apiVersion,
+		Api: apiVersion,
 		ToDo: &v1.ToDo{
 			Id:          task.Key,
 			Title:       task.Title,
