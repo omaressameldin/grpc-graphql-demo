@@ -1,0 +1,8 @@
+version: '3.2'
+services:
+  proto-gen:
+    build: proto-gen/.
+    volumes:
+      - type: bind
+        target: /pkg/api
+        source: ./grpc-server/pkg/api
