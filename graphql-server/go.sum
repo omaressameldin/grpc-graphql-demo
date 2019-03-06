@@ -37,6 +37,8 @@ github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190305100131-eb
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190305100131-ebe3466529ae/go.mod h1:tfNGa1J99iwNVRuvMHa6j9HIxRxgULtH2rCcgx2Lfms=
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190305111446-6c30d2c06fb9 h1:PtsobwlYYSn0yLOUGfstX5zBlDZmdZ7D5pJ3aQAluxA=
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190305111446-6c30d2c06fb9/go.mod h1:tfNGa1J99iwNVRuvMHa6j9HIxRxgULtH2rCcgx2Lfms=
+github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190306104856-3ad64909bcfb h1:RRBlGAZCdDklaqpOVGEub3f7PDWYSOMLoB+60VkD4/I=
+github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190306104856-3ad64909bcfb/go.mod h1:k/0sZQCaCPnL8y0ey3aOA2m4vxLQYvu2dOYFF52FsxY=
 github.com/opentracing/basictracer-go v1.0.0/go.mod h1:QfBfYuafItcjQuMwinw9GhYKwFXS9KnPs5lxoYwgW74=
 github.com/opentracing/opentracing-go v1.0.2/go.mod h1:UkNAQd3GIcIGf0SeVgPpRdFStlNbqXla1AfSYxPUl2o=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
@@ -63,6 +65,7 @@ golang.org/x/net v0.0.0-20190301231341-16b79f2e4e95 h1:fY7Dsw114eJN4boqzVSbpVHO6
 golang.org/x/net v0.0.0-20190301231341-16b79f2e4e95/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be/go.mod h1:N/0e6XlmueqKjAGxoOufVs8QHGRruUQn6yWY3a++T0U=
 golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
+golang.org/x/sys v0.0.0-20180830151530-49385e6e1522 h1:Ve1ORMCxvRmSXBwJK+t3Oy+V2vRW2OetUQBq4rJIkZE=
 golang.org/x/sys v0.0.0-20180830151530-49385e6e1522/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/text v0.3.0 h1:g61tztE5qeGQ89tm6NTjjM9VPIm088od1l6aSorWRWg=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
