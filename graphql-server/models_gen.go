@@ -9,7 +9,6 @@ type DeleteTodo struct {
 type NewTodo struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
-	UserID      int    `json:"userId"`
 }
 
 type ReadTodo struct {
@@ -20,9 +19,4 @@ type UpdateTodo struct {
 	Title       *string `json:"title"`
 	Description *string `json:"description"`
 	TodoID      int     `json:"todoId"`
-}
-
-type User struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
 }

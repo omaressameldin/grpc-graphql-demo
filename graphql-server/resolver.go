@@ -4,7 +4,6 @@ package graphql_server
 
 import (
 	"context"
-	"fmt"
 
 	"log"
 	"time"
@@ -31,9 +30,6 @@ func (r *Resolver) Mutation() MutationResolver {
 }
 func (r *Resolver) Query() QueryResolver {
 	return &queryResolver{r}
-}
-func (r *Resolver) Todo() TodoResolver {
-	return &todoResolver{r}
 }
 
 type mutationResolver struct{ *Resolver }
@@ -166,10 +162,4 @@ func (r *queryResolver) Todo(ctx context.Context, input ReadTodo) (*custom_model
 
 	todo := custom_models.BuildTodo(res1.GetToDo())
 	return todo, nil
-}
-
-type todoResolver struct{ *Resolver }
-
-func (r *todoResolver) User(ctx context.Context, obj *custom_models.Todo) (*User, error) {
-	return &User{ID: obj.UserID, Name: fmt.Sprintf("user :%d", obj.UserID)}, nil
 }

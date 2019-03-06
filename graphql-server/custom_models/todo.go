@@ -11,7 +11,6 @@ type Todo struct {
 	Title       string
 	Description string
 	IsDone      bool
-	UserID      int
 	Reminder    time.Time
 }
 
