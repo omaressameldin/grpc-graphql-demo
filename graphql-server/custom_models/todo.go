@@ -18,7 +18,7 @@ type Todo struct {
 func BuildTodo(todo *v1.ToDo) *Todo {
 	return &Todo{
 		ID:          int(todo.GetId()),
-		Description: todo.GetDescription(),
+		Description: todo.GetDescriptionValue(),
 		Title:       todo.GetTitleValue(),
 	}
 }

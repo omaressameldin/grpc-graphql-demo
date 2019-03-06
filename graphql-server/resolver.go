@@ -53,8 +53,12 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input NewTodo) (*cust
 			Title: &v1.ToDo_TitleValue{
 				TitleValue: input.Title,
 			},
-			Description: input.Description,
-			Reminder:    reminder,
+			Description: &v1.ToDo_DescriptionValue{
+				DescriptionValue: input.Description,
+			},
+			Reminder: &v1.ToDo_ReminderValue{
+				ReminderValue: reminder,
+			},
 		},
 	}
 
@@ -81,7 +85,9 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input UpdateTodo) (*c
 		}
 	}
 	if input.Description != nil {
-		updatedTodo.Description = *input.Description
+		updatedTodo.Description = &v1.ToDo_DescriptionValue{
+			DescriptionValue: *input.Description,
+		}
 	}
 
 	req1 := v1.UpdateRequest{

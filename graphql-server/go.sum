@@ -39,6 +39,8 @@ github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190305111446-6c
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190305111446-6c30d2c06fb9/go.mod h1:tfNGa1J99iwNVRuvMHa6j9HIxRxgULtH2rCcgx2Lfms=
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190306104856-3ad64909bcfb h1:RRBlGAZCdDklaqpOVGEub3f7PDWYSOMLoB+60VkD4/I=
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190306104856-3ad64909bcfb/go.mod h1:k/0sZQCaCPnL8y0ey3aOA2m4vxLQYvu2dOYFF52FsxY=
+github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190306125659-7e2838e01ccd h1:VjEclPitws0JwRyZ7vHjIz4IFIdnzXb6iMdj5Pk3cSw=
+github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190306125659-7e2838e01ccd/go.mod h1:k/0sZQCaCPnL8y0ey3aOA2m4vxLQYvu2dOYFF52FsxY=
 github.com/opentracing/basictracer-go v1.0.0/go.mod h1:QfBfYuafItcjQuMwinw9GhYKwFXS9KnPs5lxoYwgW74=
 github.com/opentracing/opentracing-go v1.0.2/go.mod h1:UkNAQd3GIcIGf0SeVgPpRdFStlNbqXla1AfSYxPUl2o=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
