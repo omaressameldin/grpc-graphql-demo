@@ -65,7 +65,7 @@ func (s *toDoServiceServer) Create(ctx context.Context, req *v1.CreateRequest) (
 
 	// insert ToDo entity data
 	task := model.Task{
-		Title:       req.ToDo.Title,
+		Title:       req.ToDo.GetTitleValue(),
 		Description: req.ToDo.Description,
 		Reminder:    reminder,
 		IsDone:      req.ToDo.IsDone,
@@ -78,8 +78,10 @@ func (s *toDoServiceServer) Create(ctx context.Context, req *v1.CreateRequest) (
 	return &v1.CreateResponse{
 		Api: apiVersion,
 		ToDo: &v1.ToDo{
-			Id:          id,
-			Title:       task.Title,
+			Id: id,
+			Title: &v1.ToDo_TitleValue{
+				TitleValue: task.Title,
+			},
 			Description: task.Description,
 			IsDone:      task.IsDone,
 			Reminder:    req.ToDo.Reminder,
@@ -108,15 +110,14 @@ func (s *toDoServiceServer) Read(ctx context.Context, req *v1.ReadRequest) (*v1.
 
 	// get ToDo data
 	td := &v1.ToDo{
-		Id:          task.Key,
-		Title:       task.Title,
+		Id: task.Key,
+		Title: &v1.ToDo_TitleValue{
+			TitleValue: task.Title,
+		},
 		Description: task.Description,
 		IsDone:      task.IsDone,
 	}
 	var reminder time.Time
-	// if err := rows.Scan(&td.Id, &td.Title, &td.Description, &reminder); err != nil {
-	// 	return nil, status.Error(codes.Unknown, "failed to retrieve field values from ToDo row-> "+err.Error())
-	// }
 	td.Reminder, err = ptypes.TimestampProto(reminder)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "reminder field has invalid format-> "+err.Error())
@@ -141,7 +142,7 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 		Key: req.ToDo.Id,
 	}
 	if &req.ToDo.Title != nil {
-		task.Title = req.ToDo.Title
+		task.Title = req.ToDo.GetTitleValue()
 	}
 	if &req.ToDo.Description != nil {
 		task.Description = req.ToDo.Description
@@ -166,8 +167,10 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 	return &v1.UpdateResponse{
 		Api: apiVersion,
 		ToDo: &v1.ToDo{
-			Id:          task.Key,
-			Title:       task.Title,
+			Id: task.Key,
+			Title: &v1.ToDo_TitleValue{
+				TitleValue: task.Title,
+			},
 			Description: task.Description,
 			IsDone:      task.IsDone,
 			Reminder:    req.ToDo.Reminder,
@@ -211,8 +214,10 @@ func (s *toDoServiceServer) ReadAll(ctx context.Context, req *v1.ReadAllRequest)
 	list := []*v1.ToDo{}
 	for _, dbTask := range rows {
 		td := &v1.ToDo{
-			Id:          dbTask.Key,
-			Title:       dbTask.Title,
+			Id: dbTask.Key,
+			Title: &v1.ToDo_TitleValue{
+				TitleValue: dbTask.Title,
+			},
 			Description: dbTask.Description,
 			IsDone:      dbTask.IsDone,
 		}
