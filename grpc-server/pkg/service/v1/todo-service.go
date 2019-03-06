@@ -201,14 +201,14 @@ func (s *toDoServiceServer) Delete(ctx context.Context, req *v1.DeleteRequest) (
 	}
 
 	// delete ToDo
-	err := db.DeleteTask(req.Id)
+	deleted, err := db.DeleteTask(req.Id)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to delete ToDo-> "+err.Error())
 	}
 
 	return &v1.DeleteResponse{
 		Api:     apiVersion,
-		Deleted: 1,
+		Deleted: deleted,
 	}, nil
 }
 

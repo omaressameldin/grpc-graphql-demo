@@ -87,7 +87,7 @@ message DeleteResponse{
     string api = 1;
     // Contains number of entities have beed deleted
     // Equals 1 in case of succesfull delete
-    int64 deleted = 2;
+    bool deleted = 2;
 }
 
 // Request data to read all todo task

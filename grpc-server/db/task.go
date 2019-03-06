@@ -83,11 +83,15 @@ func UpdateTask(id int64, t model.Task) error {
 	})
 }
 
-func DeleteTask(id int64) error {
-	return db.Update(func(tx *bolt.Tx) error {
+func DeleteTask(id int64) (bool, error) {
+	err := db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(taskBucket)
 		return b.Delete(itob(id))
 	})
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
 
 func itob(v int64) []byte {
