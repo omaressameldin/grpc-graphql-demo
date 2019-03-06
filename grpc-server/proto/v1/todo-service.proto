@@ -8,7 +8,9 @@ message ToDo {
     // Unique integer identifier of the todo task
     int64 id = 1;
     // Title of the task
-    string title = 2;
+    oneof title {
+      string title_value = 2;
+    }
     // Detail description of the todo task
     string description = 3;
     // Date and time to remind the todo task
