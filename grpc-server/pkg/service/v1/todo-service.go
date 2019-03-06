@@ -58,7 +58,7 @@ func (s *toDoServiceServer) Create(ctx context.Context, req *v1.CreateRequest) (
 		return nil, err
 	}
 
-	reminder, err := ptypes.Timestamp(req.ToDo.Reminder)
+	reminder, err := ptypes.Timestamp(req.ToDo.GetReminderValue())
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, "reminder field has invalid format-> "+err.Error())
 	}
@@ -66,9 +66,9 @@ func (s *toDoServiceServer) Create(ctx context.Context, req *v1.CreateRequest) (
 	// insert ToDo entity data
 	task := model.Task{
 		Title:       req.ToDo.GetTitleValue(),
-		Description: req.ToDo.Description,
+		Description: req.ToDo.GetDescriptionValue(),
 		Reminder:    reminder,
-		IsDone:      req.ToDo.IsDone,
+		IsDone:      req.ToDo.GetIsDoneValue(),
 	}
 	id, err := db.CreateTask(task)
 	if err != nil {
@@ -82,9 +82,13 @@ func (s *toDoServiceServer) Create(ctx context.Context, req *v1.CreateRequest) (
 			Title: &v1.ToDo_TitleValue{
 				TitleValue: task.Title,
 			},
-			Description: task.Description,
-			IsDone:      task.IsDone,
-			Reminder:    req.ToDo.Reminder,
+			Description: &v1.ToDo_DescriptionValue{
+				DescriptionValue: task.Description,
+			},
+			IsDone: &v1.ToDo_IsDoneValue{
+				IsDoneValue: task.IsDone,
+			},
+			Reminder: req.ToDo.Reminder,
 		},
 	}, nil
 }
@@ -114,13 +118,20 @@ func (s *toDoServiceServer) Read(ctx context.Context, req *v1.ReadRequest) (*v1.
 		Title: &v1.ToDo_TitleValue{
 			TitleValue: task.Title,
 		},
-		Description: task.Description,
-		IsDone:      task.IsDone,
+		Description: &v1.ToDo_DescriptionValue{
+			DescriptionValue: task.Description,
+		},
+		IsDone: &v1.ToDo_IsDoneValue{
+			IsDoneValue: task.IsDone,
+		},
 	}
 	var reminder time.Time
-	td.Reminder, err = ptypes.TimestampProto(reminder)
+	reminderValue, err := ptypes.TimestampProto(reminder)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "reminder field has invalid format-> "+err.Error())
+	}
+	td.Reminder = &v1.ToDo_ReminderValue{
+		ReminderValue: reminderValue,
 	}
 
 	return &v1.ReadResponse{
@@ -145,14 +156,14 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 		task.Title = req.ToDo.GetTitleValue()
 	}
 	if &req.ToDo.Description != nil {
-		task.Description = req.ToDo.Description
+		task.Description = req.ToDo.GetDescriptionValue()
 	}
 	if &req.ToDo.IsDone != nil {
-		task.IsDone = req.ToDo.IsDone
+		task.IsDone = req.ToDo.GetIsDoneValue()
 	}
 
 	if req.ToDo.Reminder != nil {
-		reminder, err := ptypes.Timestamp(req.ToDo.Reminder)
+		reminder, err := ptypes.Timestamp(req.ToDo.GetReminderValue())
 		if err != nil {
 			return nil, status.Error(codes.InvalidArgument, "reminder field has invalid format-> "+err.Error())
 		}
@@ -171,9 +182,13 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 			Title: &v1.ToDo_TitleValue{
 				TitleValue: task.Title,
 			},
-			Description: task.Description,
-			IsDone:      task.IsDone,
-			Reminder:    req.ToDo.Reminder,
+			Description: &v1.ToDo_DescriptionValue{
+				DescriptionValue: task.Description,
+			},
+			IsDone: &v1.ToDo_IsDoneValue{
+				IsDoneValue: task.IsDone,
+			},
+			Reminder: req.ToDo.Reminder,
 		},
 	}, nil
 }
@@ -218,12 +233,19 @@ func (s *toDoServiceServer) ReadAll(ctx context.Context, req *v1.ReadAllRequest)
 			Title: &v1.ToDo_TitleValue{
 				TitleValue: dbTask.Title,
 			},
-			Description: dbTask.Description,
-			IsDone:      dbTask.IsDone,
+			Description: &v1.ToDo_DescriptionValue{
+				DescriptionValue: dbTask.Description,
+			},
+			IsDone: &v1.ToDo_IsDoneValue{
+				IsDoneValue: dbTask.IsDone,
+			},
 		}
-		td.Reminder, err = ptypes.TimestampProto(dbTask.Reminder)
+		reminderValue, err := ptypes.TimestampProto(dbTask.Reminder)
 		if err != nil {
 			return nil, status.Error(codes.Unknown, "reminder field has invalid format-> "+err.Error())
+		}
+		td.Reminder = &v1.ToDo_ReminderValue{
+			ReminderValue: reminderValue,
 		}
 		list = append(list, td)
 	}

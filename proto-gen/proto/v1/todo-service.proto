@@ -12,10 +12,16 @@ message ToDo {
       string title_value = 2;
     }
     // Detail description of the todo task
-    string description = 3;
+    oneof description {
+      string description_value = 3;
+    }
     // Date and time to remind the todo task
-    google.protobuf.Timestamp reminder = 4;
-    bool isDone = 5;
+    oneof reminder {
+      google.protobuf.Timestamp reminder_value = 4;
+    }
+    oneof isDone {
+      bool isDone_value = 5;
+    }
 }
 
 // Request data to create new todo task
