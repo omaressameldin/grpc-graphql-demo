@@ -34,10 +34,14 @@ input UpdateTodo {
   todoId: ID!
 }
 
+input DeleteTodo {
+  todoId: ID!
+}
+
 type Mutation {
   createTodo(input: NewTodo!): Todo!
   updateTodo(input: UpdateTodo!): Todo!
-
+  deleteTodo(input: DeleteTodo!): Boolean!
 }
 
 scalar Timestamp

@@ -2,6 +2,10 @@
 
 package graphql_server
 
+type DeleteTodo struct {
+	TodoID int `json:"todoId"`
+}
+
 type NewTodo struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`

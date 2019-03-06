@@ -104,6 +104,24 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input UpdateTodo) (*c
 	return todo, nil
 }
 
+func (r *mutationResolver) DeleteTodo(ctx context.Context, input DeleteTodo) (bool, error) {
+	c := v1.NewToDoServiceClient(r.TodoClient)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	req1 := v1.DeleteRequest{
+		Api: apiVersion,
+		Id:  int64(input.TodoID),
+	}
+
+	res1, err := c.Delete(ctx, &req1)
+	if err != nil {
+		log.Fatalf("Create failed: %v", err)
+	}
+	return res1.GetDeleted(), nil
+}
+
 type queryResolver struct{ *Resolver }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]custom_models.Todo, error) {
