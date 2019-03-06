@@ -50,7 +50,9 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input NewTodo) (*cust
 	req1 := v1.CreateRequest{
 		Api: apiVersion,
 		ToDo: &v1.ToDo{
-			Title:       input.Title,
+			Title: &v1.ToDo_TitleValue{
+				TitleValue: input.Title,
+			},
 			Description: input.Description,
 			Reminder:    reminder,
 		},
@@ -74,7 +76,9 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input UpdateTodo) (*c
 		Id: int64(input.TodoID),
 	}
 	if input.Title != nil {
-		updatedTodo.Title = *input.Title
+		updatedTodo.Title = &v1.ToDo_TitleValue{
+			TitleValue: *input.Title,
+		}
 	}
 	if input.Description != nil {
 		updatedTodo.Description = *input.Description
