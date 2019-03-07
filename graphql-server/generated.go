@@ -271,6 +271,7 @@ type Query {
 input NewTodo {
   title: String!
   description: String!
+  reminder: Timestamp
 }
 
 
@@ -282,6 +283,8 @@ input UpdateTodo {
   title: String
   description: String
   todoId: ID!
+  isDone: Boolean
+  reminder: Timestamp
 }
 
 input DeleteTodo {
@@ -1576,6 +1579,12 @@ func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, v interfa
 			if err != nil {
 				return it, err
 			}
+		case "reminder":
+			var err error
+			it.Reminder, err = ec.unmarshalOTimestamp2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		}
 	}
 
@@ -1621,6 +1630,18 @@ func (ec *executionContext) unmarshalInputUpdateTodo(ctx context.Context, v inte
 		case "todoId":
 			var err error
 			it.TodoID, err = ec.unmarshalNID2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "isDone":
+			var err error
+			it.IsDone, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "reminder":
+			var err error
+			it.Reminder, err = ec.unmarshalOTimestamp2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -2386,6 +2407,21 @@ func (ec *executionContext) marshalOTimestamp2timeᚐTime(ctx context.Context, s
 		return graphql.Null
 	}
 	return custom_models.MarshalTimestamp(v)
+}
+
+func (ec *executionContext) unmarshalOTimestamp2ᚖtimeᚐTime(ctx context.Context, v interface{}) (*time.Time, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOTimestamp2timeᚐTime(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) marshalOTimestamp2ᚖtimeᚐTime(ctx context.Context, sel ast.SelectionSet, v *time.Time) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec.marshalOTimestamp2timeᚐTime(ctx, sel, *v)
 }
 
 func (ec *executionContext) marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValue(ctx context.Context, sel ast.SelectionSet, v []introspection.EnumValue) graphql.Marshaler {

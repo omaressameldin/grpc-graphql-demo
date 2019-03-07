@@ -2,13 +2,18 @@
 
 package graphql_server
 
+import (
+	"time"
+)
+
 type DeleteTodo struct {
 	TodoID int `json:"todoId"`
 }
 
 type NewTodo struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
+	Title       string     `json:"title"`
+	Description string     `json:"description"`
+	Reminder    *time.Time `json:"reminder"`
 }
 
 type ReadTodo struct {
@@ -16,7 +21,9 @@ type ReadTodo struct {
 }
 
 type UpdateTodo struct {
-	Title       *string `json:"title"`
-	Description *string `json:"description"`
-	TodoID      int     `json:"todoId"`
+	Title       *string    `json:"title"`
+	Description *string    `json:"description"`
+	TodoID      int        `json:"todoId"`
+	IsDone      *bool      `json:"isDone"`
+	Reminder    *time.Time `json:"reminder"`
 }
