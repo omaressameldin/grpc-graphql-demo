@@ -222,7 +222,7 @@ func (s *toDoServiceServer) ReadAll(ctx context.Context, req *v1.ReadAllRequest)
 	}
 
 	// get ToDo list
-	rows, err := db.AllTasks()
+	rows, err := db.AllTasks(req.JustRemaining)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to select from ToDo-> "+err.Error())
 	}

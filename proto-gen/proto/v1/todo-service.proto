@@ -94,6 +94,7 @@ message DeleteResponse{
 message ReadAllRequest{
     // API versioning: it is my best practice to specify version explicitly
     string api = 1;
+    bool justRemaining = 2;
 }
 
 // Contains list of all todo tasks

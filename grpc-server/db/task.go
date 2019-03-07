@@ -28,7 +28,7 @@ func Close() error {
 	return db.Close()
 }
 
-func AllTasks() ([]model.Task, error) {
+func AllTasks(JustRemaining bool) ([]model.Task, error) {
 	var tasks []model.Task
 	err := db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket(taskBucket)
@@ -38,7 +38,9 @@ func AllTasks() ([]model.Task, error) {
 			if err != nil {
 				return err
 			}
-			tasks = append(tasks, task)
+			if (JustRemaining && !task.IsDone) || !JustRemaining {
+				tasks = append(tasks, task)
+			}
 		}
 		return nil
 	})
