@@ -2,11 +2,14 @@ package custom_models
 
 import (
 	"fmt"
-	"github.com/99designs/gqlgen/graphql"
 	"io"
 	"strconv"
 	"time"
+
+	"github.com/99designs/gqlgen/graphql"
 )
+
+const rfc3339fulltime = "2006-02-01 15:04:05"
 
 func MarshalID(id int) graphql.Marshaler {
 	return graphql.WriterFunc(func(w io.Writer) {
@@ -24,16 +27,21 @@ func UnmarshalID(v interface{}) (int, error) {
 }
 
 func MarshalTimestamp(t time.Time) graphql.Marshaler {
-	timestamp := t.Unix() * 1000
-
 	return graphql.WriterFunc(func(w io.Writer) {
-		io.WriteString(w, strconv.FormatInt(timestamp, 10))
+		io.WriteString(w, strconv.Quote(t.Format(rfc3339fulltime)))
 	})
 }
 
 func UnmarshalTimestamp(v interface{}) (time.Time, error) {
-	if tmpStr, ok := v.(int); ok {
-		return time.Unix(int64(tmpStr), 0), nil
+	tmpStr, ok := v.(string)
+	if !ok {
+		return time.Time{}, fmt.Errorf("%T is in the wrong format", v)
 	}
-	return time.Time{}, fmt.Errorf("%T is in the wrong format", v)
+
+	time, err := time.Parse(rfc3339fulltime, tmpStr)
+	if err != nil {
+		return time, err
+	}
+
+	return time, nil
 }

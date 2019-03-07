@@ -12,6 +12,8 @@ import (
 	"github.com/omaressameldin/grpc-graphql-demo/graphql-server/custom_models"
 	v1 "github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // THIS CODE IS A STARTING POINT ONLY. IT WILL NOT BE UPDATED WITH SCHEMA CHANGES.
@@ -40,9 +42,6 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input NewTodo) (*cust
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	t := time.Now().In(time.UTC)
-	reminder, _ := ptypes.TimestampProto(t)
-
 	req1 := v1.CreateRequest{
 		Api: apiVersion,
 		ToDo: &v1.ToDo{
@@ -52,10 +51,19 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input NewTodo) (*cust
 			Description: &v1.ToDo_DescriptionValue{
 				DescriptionValue: input.Description,
 			},
-			Reminder: &v1.ToDo_ReminderValue{
-				ReminderValue: reminder,
+			IsDone: &v1.ToDo_IsDoneValue{
+				IsDoneValue: false,
 			},
 		},
+	}
+	if input.Reminder != nil {
+		reminder, err := ptypes.TimestampProto(*input.Reminder)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, "reminder field has invalid format-> "+err.Error())
+		}
+		req1.ToDo.Reminder = &v1.ToDo_ReminderValue{
+			ReminderValue: reminder,
+		}
 	}
 
 	res1, err := c.Create(ctx, &req1)
@@ -63,7 +71,10 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input NewTodo) (*cust
 		log.Fatalf("Create failed: %v", err)
 	}
 
-	todo := custom_models.BuildTodo(res1.GetToDo())
+	todo, err := custom_models.BuildTodo(res1.GetToDo())
+	if err != nil {
+		return nil, err
+	}
 	return todo, nil
 }
 
@@ -86,6 +97,22 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input UpdateTodo) (*c
 		}
 	}
 
+	if input.IsDone != nil {
+		updatedTodo.IsDone = &v1.ToDo_IsDoneValue{
+			IsDoneValue: *input.IsDone,
+		}
+	}
+
+	if input.Reminder != nil {
+		reminder, err := ptypes.TimestampProto(*input.Reminder)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, "reminder field has invalid format-> "+err.Error())
+		}
+		updatedTodo.Reminder = &v1.ToDo_ReminderValue{
+			ReminderValue: reminder,
+		}
+	}
+
 	req1 := v1.UpdateRequest{
 		Api:  apiVersion,
 		ToDo: &updatedTodo,
@@ -96,7 +123,10 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input UpdateTodo) (*c
 		log.Fatalf("Create failed: %v", err)
 	}
 
-	todo := custom_models.BuildTodo(res1.GetToDo())
+	todo, err := custom_models.BuildTodo(res1.GetToDo())
+	if err != nil {
+		return nil, err
+	}
 	return todo, nil
 }
 
@@ -138,7 +168,11 @@ func (r *queryResolver) Todos(ctx context.Context) ([]custom_models.Todo, error)
 	todos := []custom_models.Todo{}
 
 	for _, todo := range res1.GetToDos() {
-		todos = append(todos, *custom_models.BuildTodo(todo))
+		t, err := custom_models.BuildTodo(todo)
+		if err != nil {
+			return nil, err
+		}
+		todos = append(todos, *t)
 	}
 
 	return todos, nil
@@ -160,6 +194,9 @@ func (r *queryResolver) Todo(ctx context.Context, input ReadTodo) (*custom_model
 		log.Fatalf("Create failed: %v", err)
 	}
 
-	todo := custom_models.BuildTodo(res1.GetToDo())
+	todo, err := custom_models.BuildTodo(res1.GetToDo())
+	if err != nil {
+		return nil, err
+	}
 	return todo, nil
 }

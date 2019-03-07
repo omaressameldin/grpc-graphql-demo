@@ -58,18 +58,20 @@ func (s *toDoServiceServer) Create(ctx context.Context, req *v1.CreateRequest) (
 		return nil, err
 	}
 
-	reminder, err := ptypes.Timestamp(req.ToDo.GetReminderValue())
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, "reminder field has invalid format-> "+err.Error())
-	}
-
 	// insert ToDo entity data
 	task := model.Task{
 		Title:       req.ToDo.GetTitleValue(),
 		Description: req.ToDo.GetDescriptionValue(),
-		Reminder:    reminder,
 		IsDone:      req.ToDo.GetIsDoneValue(),
 	}
+	if req.ToDo.Reminder != nil {
+		reminder, err := ptypes.Timestamp(req.ToDo.GetReminderValue())
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, "reminder field has invalid format-> "+err.Error())
+		}
+		task.Reminder = reminder
+	}
+
 	id, err := db.CreateTask(task)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to insert into ToDo-> "+err.Error())
@@ -152,13 +154,13 @@ func (s *toDoServiceServer) Update(ctx context.Context, req *v1.UpdateRequest) (
 	task := model.Task{
 		Key: req.ToDo.Id,
 	}
-	if &req.ToDo.Title != nil {
+	if req.ToDo.Title != nil {
 		task.Title = req.ToDo.GetTitleValue()
 	}
-	if &req.ToDo.Description != nil {
+	if req.ToDo.Description != nil {
 		task.Description = req.ToDo.GetDescriptionValue()
 	}
-	if &req.ToDo.IsDone != nil {
+	if req.ToDo.IsDone != nil {
 		task.IsDone = req.ToDo.GetIsDoneValue()
 	}
 
