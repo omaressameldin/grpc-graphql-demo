@@ -73,6 +73,8 @@ github.com/omaressameldin/grpc-graphql-demo v0.0.0-20190305085323-78261283a403 h
 github.com/omaressameldin/grpc-graphql-demo v0.0.0-20190305145611-1cd5dadc6a54 h1:cbNgA9OxIBJCplkhrbouqrMKFfR/yBH6hda5KE84FWU=
 github.com/omaressameldin/grpc-graphql-demo v0.0.0-20190305161335-f2df9b784a5a h1:8t8BF1IZjl+ppc8OZ7K70/3ToI0HsHtbJCDHLx6ty84=
 github.com/omaressameldin/grpc-graphql-demo v0.0.0-20190306130440-8d7bc9f245a3 h1:vIDlMniFtJq0s6B4b1Lg6eZWq+Ulc/e2HMOlyrR0D/Q=
+github.com/omaressameldin/grpc-graphql-demo v0.0.0-20190307160922-8e39c264bea5 h1:4Ul24SKiPiN4m8kN57cKuTyGVVBIhmKQnwQZ2GXubxw=
+github.com/omaressameldin/grpc-graphql-demo v0.0.0-20190311081437-ffba4f317cc9 h1:GRDCBZlf9uSHuU3MSBUihqK/rAUvFoBxUwetFrNb4KA=
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190305085323-78261283a403 h1:9FYUbCYABw+HUbrn8BzZbOshhrfYZ9fgTeXGMR09dvU=
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190305085323-78261283a403/go.mod h1:tfNGa1J99iwNVRuvMHa6j9HIxRxgULtH2rCcgx2Lfms=
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190305100131-ebe3466529ae h1:b6zwQlk80L1jO/d39jid2zSk2mZ++YdGY/a0H0fx0Kg=

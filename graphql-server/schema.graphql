@@ -44,4 +44,8 @@ type Mutation {
   deleteTodo(input: DeleteTodo!): Boolean!
 }
 
+type Subscription {
+    remainingTodos: Int!
+}
+
 scalar Timestamp

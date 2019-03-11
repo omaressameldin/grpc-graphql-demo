@@ -33,6 +33,9 @@ func (r *Resolver) Mutation() MutationResolver {
 func (r *Resolver) Query() QueryResolver {
 	return &queryResolver{r}
 }
+func (r *Resolver) Subscription() SubscriptionResolver {
+	return &subscriptionResolver{r}
+}
 
 type mutationResolver struct{ *Resolver }
 
@@ -75,6 +78,7 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input NewTodo) (*cust
 	if err != nil {
 		return nil, err
 	}
+	defer sendRemainingToChannel(c, ctx)
 	return todo, nil
 }
 
@@ -101,6 +105,7 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input UpdateTodo) (*c
 		updatedTodo.IsDone = &v1.ToDo_IsDoneValue{
 			IsDoneValue: *input.IsDone,
 		}
+		defer sendRemainingToChannel(c, ctx)
 	}
 
 	if input.Reminder != nil {
@@ -145,6 +150,7 @@ func (r *mutationResolver) DeleteTodo(ctx context.Context, input DeleteTodo) (bo
 	if err != nil {
 		log.Fatalf("Create failed: %v", err)
 	}
+	defer sendRemainingToChannel(c, ctx)
 	return res1.GetDeleted(), nil
 }
 
@@ -202,4 +208,32 @@ func (r *queryResolver) Todo(ctx context.Context, input ReadTodo) (*custom_model
 		return nil, err
 	}
 	return todo, nil
+}
+
+var remainingTodosChannel chan int
+
+func sendRemainingToChannel(c v1.ToDoServiceClient, ctx context.Context) {
+
+	req1 := v1.ReadAllRequest{
+		Api:           apiVersion,
+		JustRemaining: true,
+	}
+
+	res1, err := c.ReadAll(ctx, &req1)
+	if err != nil {
+		log.Fatalf("Create failed: %v", err)
+	}
+
+	remainingTodosChannel <- len(res1.GetToDos())
+}
+
+type subscriptionResolver struct{ *Resolver }
+
+func (r *subscriptionResolver) RemainingTodos(ctx context.Context) (<-chan int, error) {
+	remainingTodosChannel = make(chan int, 1)
+	go func() {
+		<-ctx.Done()
+	}()
+
+	return remainingTodosChannel, nil
 }
