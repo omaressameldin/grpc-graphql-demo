@@ -50,7 +50,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Todos func(childComplexity int) int
+		Todos func(childComplexity int, input *AllTodos) int
 		Todo  func(childComplexity int, input ReadTodo) int
 	}
 
@@ -69,7 +69,7 @@ type MutationResolver interface {
 	DeleteTodo(ctx context.Context, input DeleteTodo) (bool, error)
 }
 type QueryResolver interface {
-	Todos(ctx context.Context) ([]custom_models.Todo, error)
+	Todos(ctx context.Context, input *AllTodos) ([]custom_models.Todo, error)
 	Todo(ctx context.Context, input ReadTodo) (*custom_models.Todo, error)
 }
 
@@ -129,7 +129,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			break
 		}
 
-		return e.complexity.Query.Todos(childComplexity), true
+		args, err := ec.field_Query_todos_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Todos(childComplexity, args["input"].(*AllTodos)), true
 
 	case "Query.Todo":
 		if e.complexity.Query.Todo == nil {
@@ -264,7 +269,7 @@ var parsedSchema = gqlparser.MustLoadSchema(
 }
 
 type Query {
-  todos: [Todo!]!
+  todos(input: AllTodos): [Todo!]!
   todo(input: ReadTodo! ): Todo!
 }
 
@@ -274,6 +279,10 @@ input NewTodo {
   reminder: Timestamp
 }
 
+
+input AllTodos {
+  justRemaining: Boolean!
+}
 
 input ReadTodo {
   todoId: ID!
@@ -366,6 +375,20 @@ func (ec *executionContext) field_Query_todo_args(ctx context.Context, rawArgs m
 	var arg0 ReadTodo
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNReadTodo2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐReadTodo(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_todos_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *AllTodos
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalOAllTodos2ᚖgithubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐAllTodos(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -514,10 +537,17 @@ func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.Coll
 		Args:   nil,
 	}
 	ctx = graphql.WithResolverContext(ctx, rctx)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_todos_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx.Args = args
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Todos(rctx)
+		return ec.resolvers.Query().Todos(rctx, args["input"].(*AllTodos))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -1543,6 +1573,24 @@ func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.Co
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputAllTodos(ctx context.Context, v interface{}) (AllTodos, error) {
+	var it AllTodos
+	var asMap = v.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "justRemaining":
+			var err error
+			it.JustRemaining, err = ec.unmarshalNBoolean2bool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputDeleteTodo(ctx context.Context, v interface{}) (DeleteTodo, error) {
 	var it DeleteTodo
 	var asMap = v.(map[string]interface{})
@@ -2350,6 +2398,18 @@ func (ec *executionContext) unmarshalN__TypeKind2string(ctx context.Context, v i
 
 func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
 	return graphql.MarshalString(v)
+}
+
+func (ec *executionContext) unmarshalOAllTodos2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐAllTodos(ctx context.Context, v interface{}) (AllTodos, error) {
+	return ec.unmarshalInputAllTodos(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOAllTodos2ᚖgithubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐAllTodos(ctx context.Context, v interface{}) (*AllTodos, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOAllTodos2githubᚗcomᚋomaressameldinᚋgrpcᚑgraphqlᚑdemoᚋgraphqlᚑserverᚐAllTodos(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {

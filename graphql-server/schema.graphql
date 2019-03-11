@@ -7,7 +7,7 @@ type Todo {
 }
 
 type Query {
-  todos: [Todo!]!
+  todos(input: AllTodos): [Todo!]!
   todo(input: ReadTodo! ): Todo!
 }
 
@@ -17,6 +17,10 @@ input NewTodo {
   reminder: Timestamp
 }
 
+
+input AllTodos {
+  justRemaining: Boolean!
+}
 
 input ReadTodo {
   todoId: ID!

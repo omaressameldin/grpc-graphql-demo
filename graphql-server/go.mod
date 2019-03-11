@@ -21,7 +21,7 @@ require (
 	github.com/leekchan/accounting v0.0.0-20180703100437-18a1925d6514 // indirect
 	github.com/lib/pq v1.0.0 // indirect
 	github.com/martinlindhe/base36 v0.0.0-20180729042928-5cda0030da17 // indirect
-	github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190306145101-f4980c4d0ad2
+	github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190307160922-8e39c264bea5
 	github.com/pkg/sftp v1.10.0 // indirect
 	github.com/shopspring/decimal v0.0.0-20180709203117-cd690d0c9e24 // indirect
 	github.com/sirupsen/logrus v1.3.0 // indirect

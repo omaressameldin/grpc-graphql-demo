@@ -150,7 +150,7 @@ func (r *mutationResolver) DeleteTodo(ctx context.Context, input DeleteTodo) (bo
 
 type queryResolver struct{ *Resolver }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]custom_models.Todo, error) {
+func (r *queryResolver) Todos(ctx context.Context, input *AllTodos) ([]custom_models.Todo, error) {
 	c := v1.NewToDoServiceClient(r.TodoClient)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -158,6 +158,9 @@ func (r *queryResolver) Todos(ctx context.Context) ([]custom_models.Todo, error)
 
 	req1 := v1.ReadAllRequest{
 		Api: apiVersion,
+	}
+	if input != nil {
+		req1.JustRemaining = input.JustRemaining
 	}
 
 	res1, err := c.ReadAll(ctx, &req1)

@@ -6,6 +6,10 @@ import (
 	"time"
 )
 
+type AllTodos struct {
+	JustRemaining bool `json:"justRemaining"`
+}
+
 type DeleteTodo struct {
 	TodoID int `json:"todoId"`
 }
