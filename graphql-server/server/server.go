@@ -31,7 +31,7 @@ const authorizationKey = "Token"
 type contextKey string
 
 func connectToService() (*grpc.ClientConn, error) {
-	return grpc.Dial("grpc-server:3000", grpc.WithInsecure())
+	return grpc.Dial("todos-server:3000", grpc.WithInsecure())
 }
 
 func authMiddleware(next http.Handler) http.Handler {

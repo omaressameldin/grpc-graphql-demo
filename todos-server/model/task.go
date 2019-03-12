@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/golang/protobuf/ptypes"
-	v1 "github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
+	v1 "github.com/omaressameldin/grpc-graphql-demo/todos-server/pkg/api/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"time"
 
-	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/model"
+	"github.com/omaressameldin/grpc-graphql-demo/todos-server/model"
 
 	"github.com/boltdb/bolt"
 )

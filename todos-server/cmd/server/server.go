@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/service/v1"
-	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/server"
+	v1 "github.com/omaressameldin/grpc-graphql-demo/todos-server/pkg/service/v1"
+	"github.com/omaressameldin/grpc-graphql-demo/todos-server/server"
 )
 
 // Config is configuration for Server

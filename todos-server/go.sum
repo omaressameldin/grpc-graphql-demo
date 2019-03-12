@@ -9,6 +9,7 @@ github.com/golang/protobuf v1.2.0 h1:P3YflyNX/ehuJFLhxviNdFxQPkGK5cDcApsge1SqnvM
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/omaressameldin/grpc-graphql-demo v0.0.0-20190304172632-d472c451029a h1:yFoj9D9rIzS3rdv17Zg+da6kIftLwirU5dymuk6xZ6Q=
 github.com/omaressameldin/grpc-graphql-demo v0.0.0-20190304172632-d472c451029a/go.mod h1:KyEh9qsc+Cg7iRNxeJP4kisXSrZa6tb0MTFFsCnrcbE=
+github.com/omaressameldin/grpc-graphql-demo v0.0.0-20190312110030-ecc2c24fee8b h1:JMCEHY398+N1cif8umiiWQkvAKllt6h/t/Bg5c9/tdo=
 golang.org/x/lint v0.0.0-20181026193005-c67002cb31c3/go.mod h1:UVdnD1Gm6xHRNCYTkRU2/jEulfH38KcIWyp/GAMgvoE=
 golang.org/x/net v0.0.0-20180826012351-8a410e7b638d h1:g9qWBGx4puODJTMVyoPrpoxPFgVGd+z1DZwjfRu4d0I=
 golang.org/x/net v0.0.0-20180826012351-8a410e7b638d/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=

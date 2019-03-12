@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/model"
+	"github.com/omaressameldin/grpc-graphql-demo/todos-server/model"
 
-	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/db"
-	v1 "github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
+	"github.com/omaressameldin/grpc-graphql-demo/todos-server/db"
+	v1 "github.com/omaressameldin/grpc-graphql-demo/todos-server/pkg/api/v1"
 
 	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc/codes"

@@ -10,7 +10,7 @@ import (
 
 	"github.com/golang/protobuf/ptypes"
 	"github.com/omaressameldin/grpc-graphql-demo/graphql-server/custom_models"
-	v1 "github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
+	v1 "github.com/omaressameldin/grpc-graphql-demo/todos-server/pkg/api/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

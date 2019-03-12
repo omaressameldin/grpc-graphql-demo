@@ -1,14 +1,14 @@
 version: '3.2'
 services:
-  grpc-server:
-    build: grpc-server/.
-    command: ./grpc-server --grpc-port=3000 --db-path=/data/tasks.db
+  todos-server:
+    build: todos-server/.
+    command: ./todos-server --grpc-port=3000 --db-path=/data/tasks.db
     ports:
       - "9170:3000"
     volumes:
       - type: bind
         target: /data
-        source: ./grpc-server/data
+        source: ./todos-server/data
   graphql-server:
     build: graphql-server/.
     command: ./graphql-server
