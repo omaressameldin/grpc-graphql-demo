@@ -1,3 +1,5 @@
+directive @authenticationToken on FIELD_DEFINITION
+
 type Todo {
   id: ID!
   title: String!
@@ -41,7 +43,7 @@ input DeleteTodo {
 type Mutation {
   createTodo(input: NewTodo!): Todo!
   updateTodo(input: UpdateTodo!): Todo!
-  deleteTodo(input: DeleteTodo!): Boolean!
+  deleteTodo(input: DeleteTodo!): Boolean! @authenticationToken
 }
 
 type Subscription {

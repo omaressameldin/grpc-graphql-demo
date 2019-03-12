@@ -42,6 +42,7 @@ type ResolverRoot interface {
 }
 
 type DirectiveRoot struct {
+	AuthenticationToken func(ctx context.Context, obj interface{}, next graphql.Resolver) (res interface{}, err error)
 }
 
 type ComplexityRoot struct {
@@ -282,6 +283,18 @@ func (ec *executionContext) FieldMiddleware(ctx context.Context, obj interface{}
 			ret = nil
 		}
 	}()
+	rctx := graphql.GetResolverContext(ctx)
+	for _, d := range rctx.Field.Definition.Directives {
+		switch d.Name {
+		case "authenticationToken":
+			if ec.directives.AuthenticationToken != nil {
+				n := next
+				next = func(ctx context.Context) (interface{}, error) {
+					return ec.directives.AuthenticationToken(ctx, obj, n)
+				}
+			}
+		}
+	}
 	res, err := ec.ResolverMiddleware(ctx, next)
 	if err != nil {
 		ec.Error(ctx, err)
@@ -305,7 +318,9 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var parsedSchema = gqlparser.MustLoadSchema(
-	&ast.Source{Name: "schema.graphql", Input: `type Todo {
+	&ast.Source{Name: "schema.graphql", Input: `directive @authenticationToken on FIELD_DEFINITION
+
+type Todo {
   id: ID!
   title: String!
   description: String!
@@ -348,7 +363,7 @@ input DeleteTodo {
 type Mutation {
   createTodo(input: NewTodo!): Todo!
   updateTodo(input: UpdateTodo!): Todo!
-  deleteTodo(input: DeleteTodo!): Boolean!
+  deleteTodo(input: DeleteTodo!): Boolean! @authenticationToken
 }
 
 type Subscription {

@@ -14,15 +14,17 @@ require (
 	github.com/grokify/gotilla v0.0.0-20190307044012-399b38c245d2
 	github.com/itchyny/base58-go v0.0.0-20181225084354-fab293004121 // indirect
 	github.com/jessevdk/go-flags v1.4.0 // indirect
+	github.com/jmoiron/sqlx v1.2.0 // indirect
 	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/kellydunn/golang-geo v0.7.0 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/kylelemons/go-gypsy v0.0.0-20160905020020-08cad365cd28 // indirect
 	github.com/leekchan/accounting v0.0.0-20180703100437-18a1925d6514 // indirect
-	github.com/lib/pq v1.0.0 // indirect
+	github.com/markbates/going v1.0.3 // indirect
 	github.com/martinlindhe/base36 v0.0.0-20180729042928-5cda0030da17 // indirect
 	github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190307160922-8e39c264bea5
 	github.com/pkg/sftp v1.10.0 // indirect
+	github.com/ridhamtarpara/go-graphql-demo v0.0.0-20190206113638-f670b80a928b
 	github.com/shopspring/decimal v0.0.0-20180709203117-cd690d0c9e24 // indirect
 	github.com/sirupsen/logrus v1.3.0 // indirect
 	github.com/valyala/fasthttp v1.2.0 // indirect
