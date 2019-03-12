@@ -1,9 +1,9 @@
 # Readme
 
 ## What this is
-- A Todo app using GRPC and GraphQl
+- A Todo app using [GRPC](https://github.com/grpc/grpc-go) and [GraphQL](https://github.com/99designs/gqlgen)
 - the todo app has a GRPC service for creating, updating, deleting, and reading tasks
-- it's using boltDB for saving tasks
+- it's using [BoltDB](https://github.com/boltdb/bolt) for saving tasks
 
 ## How to use
 - install docker and docker-compose and make sure docker does not need sudo to run (`sudo groupadd docker` `sudo gpasswd -a $USER docker`)
@@ -47,13 +47,13 @@ mutation createTodo {
 ```
 ```
 mutation updateTodo {
-  updateTodo(input: { 
+  updateTodo(input: {
   	todoId:"26",
   	title:"todo 26"
   	description: "the twenty-sixth todo"
    	reminder:"2019-03-07 16:15:00"
     isDone: true
-    
+
   }){
     id
     title
@@ -67,7 +67,7 @@ mutation deleteTodo {
   deleteTodo(input: {todoId: "10"})
 }
 ```
-- delete will only work if you add a token header, e.g: 
+- delete will only work if you add a token header, e.g:
 ```
 {
   "Token": "123"
@@ -80,8 +80,9 @@ subscription remainingTodos {
 }
 ```
 ## Technologies used
-- golang
+- Golang
 - GRPC
 - graphQL
-- docker
-- docker-compose
+- Docker
+- Docker-compose
+- BoltDB
