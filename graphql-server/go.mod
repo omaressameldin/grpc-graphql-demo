@@ -22,7 +22,7 @@ require (
 	github.com/leekchan/accounting v0.0.0-20180703100437-18a1925d6514 // indirect
 	github.com/markbates/going v1.0.3 // indirect
 	github.com/martinlindhe/base36 v0.0.0-20180729042928-5cda0030da17 // indirect
-	github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190307160922-8e39c264bea5
+	github.com/omaressameldin/grpc-graphql-demo/todos-server v0.0.0-20190312162545-edc44c530ee0 // indirect
 	github.com/pkg/sftp v1.10.0 // indirect
 	github.com/ridhamtarpara/go-graphql-demo v0.0.0-20190206113638-f670b80a928b
 	github.com/shopspring/decimal v0.0.0-20180709203117-cd690d0c9e24 // indirect

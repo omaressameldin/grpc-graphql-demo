@@ -98,6 +98,8 @@ github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190306145101-f4
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190306145101-f4980c4d0ad2/go.mod h1:k/0sZQCaCPnL8y0ey3aOA2m4vxLQYvu2dOYFF52FsxY=
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190307160922-8e39c264bea5 h1:ecKSAzoaGa8TgJpRguM7rpWZbvs1/TzuONfxE4RlnA0=
 github.com/omaressameldin/grpc-graphql-demo/grpc-server v0.0.0-20190307160922-8e39c264bea5/go.mod h1:k/0sZQCaCPnL8y0ey3aOA2m4vxLQYvu2dOYFF52FsxY=
+github.com/omaressameldin/grpc-graphql-demo/todos-server v0.0.0-20190312162545-edc44c530ee0 h1:WhAwZBPtGFzA2xHK7tuaCCo5ODjkR0vyidAZWWxJvTQ=
+github.com/omaressameldin/grpc-graphql-demo/todos-server v0.0.0-20190312162545-edc44c530ee0/go.mod h1:4kwQS+V3vR7QRFJv0Ctxvvt7dhkHrjW5nss2m9UukWA=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/gomega v1.4.3/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
