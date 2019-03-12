@@ -14,7 +14,7 @@
 
 ## Sample Requests
 ### Queries:
-```
+```graphql
 query findTodos {
   todos(input: {justRemaining: true}) {
     id
@@ -25,7 +25,7 @@ query findTodos {
   }
 }
 ```
-```
+```graphql
 query findTodo {
   todo(input: {todoId: "11"}) {
     title
@@ -35,7 +35,7 @@ query findTodo {
 }
 ```
 ### Mutations:
-```
+```graphql
 mutation createTodo {
   createTodo(input:{description: "the thirty-first todo", title:"todo 31", reminder: "2019-03-07 16:15:00"}) {
     id
@@ -45,7 +45,7 @@ mutation createTodo {
   }
 }
 ```
-```
+```graphql
 mutation updateTodo {
   updateTodo(input: {
   	todoId:"26",
@@ -62,19 +62,18 @@ mutation updateTodo {
   }
 }
 ```
-```
+```graphql
 mutation deleteTodo {
   deleteTodo(input: {todoId: "10"})
 }
+# delete will only work if you add a token header, e.g:
+#  {
+#    "Token": "123"
+#  }
 ```
-- delete will only work if you add a token header, e.g:
-```
-{
-  "Token": "123"
-}
-```
+
 ### Subscriptions:
-```
+```graphql
 subscription remainingTodos {
   remainingTodos
 }
