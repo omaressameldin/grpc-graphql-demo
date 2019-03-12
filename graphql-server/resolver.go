@@ -223,8 +223,9 @@ func sendRemainingToChannel(c v1.ToDoServiceClient, ctx context.Context) {
 	if err != nil {
 		log.Fatalf("Create failed: %v", err)
 	}
-
-	remainingTodosChannel <- len(res1.GetToDos())
+	if remainingTodosChannel != nil {
+		remainingTodosChannel <- len(res1.GetToDos())
+	}
 }
 
 type subscriptionResolver struct{ *Resolver }
