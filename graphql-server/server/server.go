@@ -62,7 +62,6 @@ func main() {
 
 	c.Directives.AuthenticationToken = func(ctx context.Context, obj interface{}, next graphql.Resolver) (res interface{}, err error) {
 		token := ctx.Value(contextKey(authorizationKey))
-		fmt.Println(token)
 		if token != nil {
 			return next(ctx)
 		}
