@@ -3,7 +3,6 @@ package v1
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/omaressameldin/grpc-graphql-demo/grpc-server/model"
 
@@ -71,27 +70,18 @@ func (s *toDoServiceServer) Create(ctx context.Context, req *v1.CreateRequest) (
 		}
 		task.Reminder = reminder
 	}
-
-	id, err := db.CreateTask(task)
+	var err error
+	task.Key, err = db.CreateTask(task)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to insert into ToDo-> "+err.Error())
 	}
-
+	td, err := model.BuildTaskResponse(task)
+	if err != nil {
+		return nil, err
+	}
 	return &v1.CreateResponse{
-		Api: apiVersion,
-		ToDo: &v1.ToDo{
-			Id: id,
-			Title: &v1.ToDo_TitleValue{
-				TitleValue: task.Title,
-			},
-			Description: &v1.ToDo_DescriptionValue{
-				DescriptionValue: task.Description,
-			},
-			IsDone: &v1.ToDo_IsDoneValue{
-				IsDoneValue: task.IsDone,
-			},
-			Reminder: req.ToDo.Reminder,
-		},
+		Api:  apiVersion,
+		ToDo: td,
 	}, nil
 }
 
@@ -115,25 +105,9 @@ func (s *toDoServiceServer) Read(ctx context.Context, req *v1.ReadRequest) (*v1.
 	}
 
 	// get ToDo data
-	td := &v1.ToDo{
-		Id: task.Key,
-		Title: &v1.ToDo_TitleValue{
-			TitleValue: task.Title,
-		},
-		Description: &v1.ToDo_DescriptionValue{
-			DescriptionValue: task.Description,
-		},
-		IsDone: &v1.ToDo_IsDoneValue{
-			IsDoneValue: task.IsDone,
-		},
-	}
-	var reminder time.Time
-	reminderValue, err := ptypes.TimestampProto(reminder)
+	td, err := model.BuildTaskResponse(task)
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "reminder field has invalid format-> "+err.Error())
-	}
-	td.Reminder = &v1.ToDo_ReminderValue{
-		ReminderValue: reminderValue,
+		return nil, err
 	}
 
 	return &v1.ReadResponse{
@@ -230,24 +204,9 @@ func (s *toDoServiceServer) ReadAll(ctx context.Context, req *v1.ReadAllRequest)
 	// var reminder time.Time
 	list := []*v1.ToDo{}
 	for _, dbTask := range rows {
-		td := &v1.ToDo{
-			Id: dbTask.Key,
-			Title: &v1.ToDo_TitleValue{
-				TitleValue: dbTask.Title,
-			},
-			Description: &v1.ToDo_DescriptionValue{
-				DescriptionValue: dbTask.Description,
-			},
-			IsDone: &v1.ToDo_IsDoneValue{
-				IsDoneValue: dbTask.IsDone,
-			},
-		}
-		reminderValue, err := ptypes.TimestampProto(dbTask.Reminder)
+		td, err := model.BuildTaskResponse(dbTask)
 		if err != nil {
-			return nil, status.Error(codes.Unknown, "reminder field has invalid format-> "+err.Error())
-		}
-		td.Reminder = &v1.ToDo_ReminderValue{
-			ReminderValue: reminderValue,
+			return nil, err
 		}
 		list = append(list, td)
 	}

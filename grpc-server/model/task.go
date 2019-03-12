@@ -4,6 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/golang/protobuf/ptypes"
+	v1 "github.com/omaressameldin/grpc-graphql-demo/grpc-server/pkg/api/v1"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type Task struct {
@@ -31,4 +36,27 @@ func BufferToTask(buf []byte) (Task, error) {
 		fmt.Println("unmarshal err", err)
 	}
 	return t, err
+}
+
+func BuildTaskResponse(t Task) (*v1.ToDo, error) {
+	td := &v1.ToDo{
+		Id: t.Key,
+		Title: &v1.ToDo_TitleValue{
+			TitleValue: t.Title,
+		},
+		Description: &v1.ToDo_DescriptionValue{
+			DescriptionValue: t.Description,
+		},
+		IsDone: &v1.ToDo_IsDoneValue{
+			IsDoneValue: t.IsDone,
+		},
+	}
+	reminderValue, err := ptypes.TimestampProto(t.Reminder)
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "reminder field has invalid format-> "+err.Error())
+	}
+	td.Reminder = &v1.ToDo_ReminderValue{
+		ReminderValue: reminderValue,
+	}
+	return td, nil
 }
