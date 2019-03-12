@@ -1,8 +1,8 @@
 # Readme
 
 ## What this is
-- A Todo app using [GRPC](https://github.com/grpc/grpc-go) and [GraphQL](https://github.com/99designs/gqlgen)
-- the todo app has a GRPC service for creating, updating, deleting, and reading tasks
+- A Todo app using GO, [GRPC](https://github.com/grpc/grpc-go) and [GraphQL](https://github.com/99designs/gqlgen)
+- the todo app has a GO / GRPC service for creating, updating, deleting, and reading tasks and a GO / GraphqL api layer in front of the service
 - it's using [BoltDB](https://github.com/boltdb/bolt) for saving tasks
 
 ## How to use
