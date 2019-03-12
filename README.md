@@ -12,6 +12,73 @@
 - run `docker-compose up --build` at the root of the project to launch all services
 - open [localhost:9181](http://localhost:9181) to go to graphql playground
 
+## Sample Requests
+### Queries:
+```
+query findTodos {
+  todos(input: {justRemaining: true}) {
+    id
+    description
+    title
+    isDone
+    reminder
+  }
+}
+```
+```
+query findTodo {
+  todo(input: {todoId: "11"}) {
+    title
+    description
+    reminder
+  }
+}
+```
+### Mutations:
+```
+mutation createTodo {
+  createTodo(input:{description: "the thirty-first todo", title:"todo 31", reminder: "2019-03-07 16:15:00"}) {
+    id
+    title
+    description
+    reminder
+  }
+}
+```
+```
+mutation updateTodo {
+  updateTodo(input: { 
+  	todoId:"26",
+  	title:"todo 26"
+  	description: "the twenty-sixth todo"
+   	reminder:"2019-03-07 16:15:00"
+    isDone: true
+    
+  }){
+    id
+    title
+    description
+    reminder
+  }
+}
+```
+```
+mutation deleteTodo {
+  deleteTodo(input: {todoId: "10"})
+}
+```
+- delete will only work if you add a token header, e.g: 
+```
+{
+  "Token": "123"
+}
+```
+### Subscriptions:
+```
+subscription remainingTodos {
+  remainingTodos
+}
+```
 ## Technologies used
 - golang
 - GRPC
