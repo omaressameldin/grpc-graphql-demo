@@ -6,8 +6,7 @@
 - it's using [BoltDB](https://github.com/boltdb/bolt) for saving tasks
 
 ## How to use
-- install docker and docker-compose and make sure docker does not need sudo to run (`sudo groupadd docker` `sudo gpasswd -a $USER docker`)
-- once everything is installed use `docker --version` to make sure that docker is running
+- make sure you have **docker version: 18.x+** installed
 - run `docker-compose -f docker-compose.dep.yml up --build`
 - run `docker-compose up --build` to launch all services
 - open [localhost:9181](http://localhost:9181) to go to graphql playground
